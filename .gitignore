@@ -1,0 +1,5 @@
+# file: ~/.gitignore_global
+.idea
+
+# file: ~/.gitignore_global
+/obj/
