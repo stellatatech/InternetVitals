@@ -3,3 +3,4 @@
 
 # file: ~/.gitignore_global
 /obj/
+*.dll

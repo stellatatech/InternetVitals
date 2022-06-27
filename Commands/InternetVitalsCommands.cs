@@ -22,19 +22,31 @@ public class InternetVitalsCommands
 
     public async Task<int> OnExecuteAsync()
     {
-        GetLocalIPAddress();
-        PingSystem();
+        if (!String.IsNullOrEmpty(GetAllMetrics))
+        {
+            GetLocalIPAddress();
+            Console.WriteLine("---------------------------------------");
+            PingSystem();
+            Console.WriteLine("---------------------------------------");
+            return 0;
+        }
+        
         return 0;
     }
     
     public static void GetLocalIPAddress()
     {
         var host = Dns.GetHostEntry(Dns.GetHostName());
+        Console.WriteLine("IP Addresses on {0}:", host.HostName);
         foreach (var ip in host.AddressList)
         {
             if (ip.AddressFamily == AddressFamily.InterNetwork)
             {
-                Console.WriteLine("IPV4 Address: {0}", ip);
+                Console.WriteLine(" -{0}", ip);
+            }
+            else if(ip.AddressFamily == AddressFamily.InterNetworkV6)
+            {
+                Console.WriteLine(" -{0}", ip.MapToIPv4());
             }
         }
     }
