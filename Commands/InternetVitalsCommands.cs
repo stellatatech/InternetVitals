@@ -22,7 +22,7 @@ public class InternetVitalsCommands
 
     public async Task<int> OnExecuteAsync()
     {
-        if (!String.IsNullOrEmpty(GetAllMetrics))
+        if (String.IsNullOrEmpty(GetAllMetrics))
         {
             GetLocalIPAddress();
             Console.WriteLine("---------------------------------------");
@@ -33,8 +33,26 @@ public class InternetVitalsCommands
         
         return 0;
     }
-    
-    public static void GetLocalIPAddress()
+
+    private void GetNetworkConnectionStatus()
+    {
+        //Create ping object
+        Ping netMon = new Ping();
+
+        //Ping host (this will block until complete)
+        PingReply response = netMon.Send("www.google.ca", 1000);
+
+        if (response.Status == IPStatus.Success)
+        {
+            Console.WriteLine("Connection Status: Connected to internet");
+        }
+        else
+        {
+            Console.WriteLine("Connection Status: Error validating network connection");
+        }
+    }
+
+    private void GetLocalIPAddress()
     {
         var host = Dns.GetHostEntry(Dns.GetHostName());
         Console.WriteLine("IP Addresses on {0}:", host.HostName);
