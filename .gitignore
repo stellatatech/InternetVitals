@@ -2,5 +2,8 @@
 .idea
 
 # file: ~/.gitignore_global
+.dll
+
+# file: ~/.gitignore_global
 /obj/
-*.dll
+
