@@ -20,8 +20,10 @@
           "net6.0"
         ],
         "sources": {
+          "/usr/local/share/dotnet/x64/library-packs": {},
           "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.pkg.github.com/actigraph/index.json": {}
+          "https://nuget.pkg.github.com/actigraph/index.json": {},
+          "https://nuget.telerik.com/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -38,6 +40,28 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "McMaster.Extensions.CommandLineUtils": {
+              "target": "Package",
+              "version": "[4.0.1, )"
+            },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[7.0.0-preview.5.22301.12, )"
+            },
+            "Serilog": {
+              "target": "Package",
+              "version": "[2.11.1-dev-01397, )"
+            },
+            "Serilog.Extensions.Logging": {
+              "target": "Package",
+              "version": "[3.1.1-dev-10301, )"
+            },
+            "Serilog.Sinks.Console": {
+              "target": "Package",
+              "version": "[4.0.2-dev-00890, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
