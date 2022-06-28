@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -41,41 +42,37 @@ public class InternetVitalsCommands
 
     private async Task GetDownloadSpeed()
     {
-        const string tempfile = "tempfile.tmp";
-        FileInfo fileInfoTemp = new FileInfo(tempfile);
-        fileInfoTemp.Delete();
-        var httpClient = new HttpClient{DefaultRequestHeaders = {}};
+        var httpClient = new HttpClient();
         
         Console.WriteLine("Downloading file....");
 
         System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
-        var response =
-            await httpClient.GetByteArrayAsync("http://dl.google.com/googletalk/googletalk-setup.exe",
-                CancellationToken.None);
+        int size = 0;
+        double[] times = Array.Empty<double>();
+        while (sw.ElapsedMilliseconds < 20000)
+        {
+            System.Diagnostics.Stopwatch responseTime = System.Diagnostics.Stopwatch.StartNew();
+            var response =
+                await httpClient.GetByteArrayAsync("https://www.apple.com/legal/sla/docs/iOS7.pdf",
+                    CancellationToken.None);
+            responseTime.Stop();
+            size += response.Length;
+            times = times.Append(responseTime.Elapsed.TotalMilliseconds).ToArray();
+        }
         sw.Stop();
+        times = times.Where(x => x != times[0]).ToArray();
+
+        var avg = times.Average(x => x);
+        avg *= times.Length -1;
+        var time = avg / 1000.0;
+        var conversion = 125000.0;
+        var convertedSize = size / conversion;
         
-        double speed = response.Count() / sw.Elapsed.TotalSeconds/ 1000000;
+        var speed = convertedSize / time;
+
+        Console.WriteLine("Download duration (seconds): {0}", time);
+        Console.WriteLine("Speed: {0:N0} mbps ", speed);
         
-
-        /* WebClient webClient = new WebClient();
-
-        Console.WriteLine("Downloading file....");
-
-        System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
-        webClient.DownloadFile("http://dl.google.com/googletalk/googletalk-setup.exe", tempfile);
-        sw.Stop();
-
-        FileInfo fileInfo = new FileInfo(tempfile);
-        Console.WriteLine("length of file, {0}",fileInfo.Length);
-        var speed = fileInfo.Length / sw.Elapsed.TotalSeconds;
-
-        Console.WriteLine("Download duration: {0}", sw.Elapsed);
-        Console.WriteLine("File size: {0}", fileInfo.Length.ToString("N0"));
-        Console.WriteLine("Speed: {0} bps ", speed.ToString("N0"));
-
-        Console.WriteLine("Press any key to continue...");
-        Console.ReadLine();
-        */
     }
     private void GetNetworkConnectionStatus()
     {
