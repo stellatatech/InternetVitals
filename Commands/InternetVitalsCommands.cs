@@ -24,16 +24,59 @@ public class InternetVitalsCommands
     {
         if (String.IsNullOrEmpty(GetAllMetrics))
         {
+            Console.WriteLine("Retrieving all data");
+            Console.WriteLine("---------------------------------------");
+            GetNetworkConnectionStatus();
+            Console.WriteLine("---------------------------------------");
             GetLocalIPAddress();
             Console.WriteLine("---------------------------------------");
             PingSystem();
             Console.WriteLine("---------------------------------------");
+            await GetDownloadSpeed();
             return 0;
         }
         
         return 0;
     }
 
+    private async Task GetDownloadSpeed()
+    {
+        const string tempfile = "tempfile.tmp";
+        FileInfo fileInfoTemp = new FileInfo(tempfile);
+        fileInfoTemp.Delete();
+        var httpClient = new HttpClient{DefaultRequestHeaders = {}};
+        
+        Console.WriteLine("Downloading file....");
+
+        System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
+        var response =
+            await httpClient.GetByteArrayAsync("http://dl.google.com/googletalk/googletalk-setup.exe",
+                CancellationToken.None);
+        sw.Stop();
+        
+        double speed = response.Count() / sw.Elapsed.TotalSeconds/ 1000000;
+        
+
+        /* WebClient webClient = new WebClient();
+
+        Console.WriteLine("Downloading file....");
+
+        System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
+        webClient.DownloadFile("http://dl.google.com/googletalk/googletalk-setup.exe", tempfile);
+        sw.Stop();
+
+        FileInfo fileInfo = new FileInfo(tempfile);
+        Console.WriteLine("length of file, {0}",fileInfo.Length);
+        var speed = fileInfo.Length / sw.Elapsed.TotalSeconds;
+
+        Console.WriteLine("Download duration: {0}", sw.Elapsed);
+        Console.WriteLine("File size: {0}", fileInfo.Length.ToString("N0"));
+        Console.WriteLine("Speed: {0} bps ", speed.ToString("N0"));
+
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadLine();
+        */
+    }
     private void GetNetworkConnectionStatus()
     {
         //Create ping object
@@ -54,18 +97,13 @@ public class InternetVitalsCommands
 
     private void GetLocalIPAddress()
     {
-        var host = Dns.GetHostEntry(Dns.GetHostName());
-        Console.WriteLine("IP Addresses on {0}:", host.HostName);
-        foreach (var ip in host.AddressList)
+        string localIPAddress = "";
+        using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
         {
-            if (ip.AddressFamily == AddressFamily.InterNetwork)
-            {
-                Console.WriteLine(" -{0}", ip);
-            }
-            else if(ip.AddressFamily == AddressFamily.InterNetworkV6)
-            {
-                Console.WriteLine(" -{0}", ip.MapToIPv4());
-            }
+            socket.Connect("8.8.8.8", 65530);
+            IPEndPoint endPoint = socket?.LocalEndPoint as IPEndPoint ?? throw new InvalidOperationException("Cannot read connection data");
+            localIPAddress = endPoint?.Address?.ToString() ?? throw new ArgumentNullException(nameof(localIPAddress), "Cannot determine IP address");
+            Console.WriteLine("Your device's IP Address: {0}", localIPAddress);
         }
     }
     
