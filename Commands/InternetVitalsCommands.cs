@@ -1,10 +1,10 @@
 using System.Collections;
+using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
-using System.Net.Http;
 
 namespace InternetVitals.Commands;
 
@@ -12,6 +12,7 @@ namespace InternetVitals.Commands;
 public class InternetVitalsCommands
 {
     private readonly ILogger _logger;
+    private readonly HttpClient _client = new HttpClient {Timeout = TimeSpan.FromSeconds(120)};
 
     public InternetVitalsCommands(ILogger logger)
     {
@@ -33,47 +34,86 @@ public class InternetVitalsCommands
             Console.WriteLine("---------------------------------------");
             PingSystem();
             Console.WriteLine("---------------------------------------");
-            await GetDownloadSpeed();
+            GetInternetStats();
+            Console.WriteLine("---------------------------------------");
+            await GetRealTimeDownloadSpeed();
+            //await GetDownloadSpeed();
             return 0;
         }
         
         return 0;
     }
 
-    private async Task GetDownloadSpeed()
+    private async Task GetRealTimeDownloadSpeed()
     {
-        var httpClient = new HttpClient();
+        //Get all adapters
+        NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
         
-        Console.WriteLine("Downloading file....");
-
-        System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
-        int size = 0;
-        double[] times = Array.Empty<double>();
-        while (sw.ElapsedMilliseconds < 20000)
+        //Get the ones that are running and in use
+        var activeAdapters = adapters.Where(x=> x.NetworkInterfaceType != NetworkInterfaceType.Loopback
+                                                && x.NetworkInterfaceType != NetworkInterfaceType.Tunnel
+                                                && x.OperationalStatus == OperationalStatus.Up 
+                                                && x.Name.StartsWith("vEthernet") == false).ToList();
+        
+        //Get the one doing the most work, that is likely the active one
+        NetworkInterface currentAdapter = activeAdapters.First();
+        foreach (var networkInterface in activeAdapters)
         {
-            System.Diagnostics.Stopwatch responseTime = System.Diagnostics.Stopwatch.StartNew();
-            var response =
-                await httpClient.GetByteArrayAsync("https://www.apple.com/legal/sla/docs/iOS7.pdf",
-                    CancellationToken.None);
-            responseTime.Stop();
-            size += response.Length;
-            times = times.Append(responseTime.Elapsed.TotalMilliseconds).ToArray();
+            if (networkInterface.GetIPv4Statistics().BytesReceived > currentAdapter.GetIPv4Statistics().BytesReceived)
+            {
+                currentAdapter = networkInterface;
+            }
         }
-        sw.Stop();
-        times = times.Where(x => x != times[0]).ToArray();
-
-        var avg = times.Average(x => x);
-        avg *= times.Length -1;
-        var time = avg / 1000.0;
-        var conversion = 125000.0;
-        var convertedSize = size / conversion;
         
-        var speed = convertedSize / time;
+        //Calculate internet speed
+        int i = 0;
+        double[] avgs = new double[0];
+        while (i <= 30)
+        {
+            var url = "https://www.apple.com/legal/sla/docs/iOS7.pdf";
+            var currentBytes = currentAdapter.GetIPv4Statistics().BytesReceived;
+            var sw = Stopwatch.StartNew();
+            await _client.GetAsync(url,
+                CancellationToken.None);
+            sw.Stop();
+            var newBytes = currentAdapter.GetIPv4Statistics().BytesReceived;
+            var byteDifference = (newBytes - currentBytes)/125000.0;
+            var timeDifference = (sw.Elapsed.TotalMilliseconds)/1000.0;
+            var speed = byteDifference / timeDifference;
+            avgs = avgs.Append(speed).ToArray();
+            Console.WriteLine("Speed Test {1}: {0} mbps", speed, i);
+            i++;
+        }
 
-        Console.WriteLine("Download duration (seconds): {0}", time);
-        Console.WriteLine("Speed: {0:N0} mbps ", speed);
-        
+        var avgSpeed = avgs.Average(x => x);
+        Console.WriteLine("Average speed {0} mbps", avgSpeed);
     }
+
+    private void GetInternetStats()
+    {   Console.WriteLine("Getting network adapter information");
+        NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
+        var activeAdapters = adapters.Where(x=> x.NetworkInterfaceType != NetworkInterfaceType.Loopback
+                                               && x.NetworkInterfaceType != NetworkInterfaceType.Tunnel
+                                               && x.OperationalStatus == OperationalStatus.Up 
+                                               && x.Name.StartsWith("vEthernet") == false);
+        foreach (NetworkInterface adapter in activeAdapters)
+        {
+            IPInterfaceProperties properties = adapter.GetIPProperties();
+            IPv4InterfaceStatistics stats = adapter.GetIPv4Statistics();
+            Console.WriteLine("Adapter details: Name: {0}, Description: {1}, NetworkInterfaceType: {2}, Status: {3}",adapter.Name, adapter.Description, adapter.NetworkInterfaceType, adapter.OperationalStatus);
+            Console.WriteLine("Speed: {0} mbps",
+                adapter.Speed/1000000);
+            Console.WriteLine("IP Addresses:");
+            foreach (var unicastIpAddressInformation in properties.UnicastAddresses)
+            {
+                Console.WriteLine(" -{0}", unicastIpAddressInformation.Address.MapToIPv4());
+            }
+            Console.WriteLine("Bytes Received: {0}", stats.BytesReceived);
+            Console.WriteLine("Bytes Sent: {0}", stats.BytesSent);
+            Console.WriteLine("---------------------------------------");
+        }
+    }
+    
     private void GetNetworkConnectionStatus()
     {
         //Create ping object
