@@ -7,3 +7,5 @@
 # file: ~/.gitignore_global
 /obj/
 
+# file: ~/.gitignore_global
+/bin/
