@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "K9Bc1CZC9Y1ICkngnuwdE8HOP7BsBp8BxmJwcbRzLs64B+iZnVNKG/Glt86r8Ol+/9R3zIF4bc/+DbYlZWlIDg==",
+  "dgSpecHash": "2QlZAXta76iEBi/iLAvV2EcNtHf+J9QB2EbIP6i9LlaFV4zN81RCGCdVsvwbDC4f8cT6BxzstcnGQTOSWtubbA==",
   "success": true,
   "projectFilePath": "/Users/jacobroseboro/RiderProjects/InternetVitals/InternetVitals.csproj",
   "expectedPackageFiles": [
@@ -11,11 +11,32 @@
     "/Users/jacobroseboro/.nuget/packages/microsoft.extensions.logging.abstractions/7.0.0-preview.5.22301.12/microsoft.extensions.logging.abstractions.7.0.0-preview.5.22301.12.nupkg.sha512",
     "/Users/jacobroseboro/.nuget/packages/microsoft.extensions.options/7.0.0-preview.5.22301.12/microsoft.extensions.options.7.0.0-preview.5.22301.12.nupkg.sha512",
     "/Users/jacobroseboro/.nuget/packages/microsoft.extensions.primitives/7.0.0-preview.5.22301.12/microsoft.extensions.primitives.7.0.0-preview.5.22301.12.nupkg.sha512",
+    "/Users/jacobroseboro/.nuget/packages/microsoft.win32.systemevents/7.0.0-preview.5.22301.12/microsoft.win32.systemevents.7.0.0-preview.5.22301.12.nupkg.sha512",
+    "/Users/jacobroseboro/.nuget/packages/newtonsoft.json/12.0.3/newtonsoft.json.12.0.3.nupkg.sha512",
+    "/Users/jacobroseboro/.nuget/packages/nspeedtest/1.2.0/nspeedtest.1.2.0.nupkg.sha512",
     "/Users/jacobroseboro/.nuget/packages/serilog/2.11.1-dev-01397/serilog.2.11.1-dev-01397.nupkg.sha512",
     "/Users/jacobroseboro/.nuget/packages/serilog.extensions.logging/3.1.1-dev-10301/serilog.extensions.logging.3.1.1-dev-10301.nupkg.sha512",
     "/Users/jacobroseboro/.nuget/packages/serilog.sinks.console/4.0.2-dev-00890/serilog.sinks.console.4.0.2-dev-00890.nupkg.sha512",
+    "/Users/jacobroseboro/.nuget/packages/speedtest.netcore/2.1.0/speedtest.netcore.2.1.0.nupkg.sha512",
     "/Users/jacobroseboro/.nuget/packages/system.componentmodel.annotations/5.0.0/system.componentmodel.annotations.5.0.0.nupkg.sha512",
-    "/Users/jacobroseboro/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+    "/Users/jacobroseboro/.nuget/packages/system.configuration.configurationmanager/7.0.0-preview.5.22301.12/system.configuration.configurationmanager.7.0.0-preview.5.22301.12.nupkg.sha512",
+    "/Users/jacobroseboro/.nuget/packages/system.diagnostics.performancecounter/7.0.0-preview.5.22301.12/system.diagnostics.performancecounter.7.0.0-preview.5.22301.12.nupkg.sha512",
+    "/Users/jacobroseboro/.nuget/packages/system.drawing.common/7.0.0-preview.5.22301.12/system.drawing.common.7.0.0-preview.5.22301.12.nupkg.sha512",
+    "/Users/jacobroseboro/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "/Users/jacobroseboro/.nuget/packages/system.security.cryptography.protecteddata/7.0.0-preview.5.22301.12/system.security.cryptography.protecteddata.7.0.0-preview.5.22301.12.nupkg.sha512",
+    "/Users/jacobroseboro/.nuget/packages/system.security.permissions/7.0.0-preview.5.22301.12/system.security.permissions.7.0.0-preview.5.22301.12.nupkg.sha512",
+    "/Users/jacobroseboro/.nuget/packages/system.windows.extensions/7.0.0-preview.5.22301.12/system.windows.extensions.7.0.0-preview.5.22301.12.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'NSpeedTest 1.2.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "libraryId": "NSpeedTest",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }

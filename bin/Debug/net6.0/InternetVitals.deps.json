@@ -10,9 +10,12 @@
         "dependencies": {
           "McMaster.Extensions.CommandLineUtils": "4.0.1",
           "Microsoft.Extensions.Logging": "7.0.0-preview.5.22301.12",
+          "NSpeedTest": "1.2.0",
           "Serilog": "2.11.1-dev-01397",
           "Serilog.Extensions.Logging": "3.1.1-dev-10301",
-          "Serilog.Sinks.Console": "4.0.2-dev-00890"
+          "Serilog.Sinks.Console": "4.0.2-dev-00890",
+          "SpeedTest.NetCore": "2.1.0",
+          "System.Diagnostics.PerformanceCounter": "7.0.0-preview.5.22301.12"
         },
         "runtime": {
           "InternetVitals.dll": {}
@@ -93,6 +96,38 @@
           }
         }
       },
+      "Microsoft.Win32.SystemEvents/7.0.0-preview.5.22301.12": {
+        "runtime": {
+          "lib/net6.0/Microsoft.Win32.SystemEvents.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.30112"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.30112"
+          }
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.3.23909"
+          }
+        }
+      },
+      "NSpeedTest/1.2.0": {
+        "runtime": {
+          "lib/net461/NSpeedTest.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "Serilog/2.11.1-dev-01397": {
         "runtime": {
           "lib/net5.0/Serilog.dll": {
@@ -124,8 +159,115 @@
           }
         }
       },
+      "SpeedTest.NetCore/2.1.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/SpeedTest.Net.dll": {
+            "assemblyVersion": "2.1.0.0",
+            "fileVersion": "2.1.0.0"
+          }
+        }
+      },
       "System.ComponentModel.Annotations/5.0.0": {},
-      "System.Runtime.CompilerServices.Unsafe/6.0.0": {}
+      "System.Configuration.ConfigurationManager/7.0.0-preview.5.22301.12": {
+        "dependencies": {
+          "System.Security.Cryptography.ProtectedData": "7.0.0-preview.5.22301.12",
+          "System.Security.Permissions": "7.0.0-preview.5.22301.12"
+        },
+        "runtime": {
+          "lib/net6.0/System.Configuration.ConfigurationManager.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.30112"
+          }
+        }
+      },
+      "System.Diagnostics.PerformanceCounter/7.0.0-preview.5.22301.12": {
+        "dependencies": {
+          "System.Configuration.ConfigurationManager": "7.0.0-preview.5.22301.12"
+        },
+        "runtime": {
+          "lib/net6.0/System.Diagnostics.PerformanceCounter.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.30112"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net6.0/System.Diagnostics.PerformanceCounter.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.30112"
+          }
+        }
+      },
+      "System.Drawing.Common/7.0.0-preview.5.22301.12": {
+        "dependencies": {
+          "Microsoft.Win32.SystemEvents": "7.0.0-preview.5.22301.12"
+        },
+        "runtime": {
+          "lib/net6.0/System.Drawing.Common.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.30112"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net6.0/System.Drawing.Common.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.30112"
+          }
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/6.0.0": {},
+      "System.Security.Cryptography.ProtectedData/7.0.0-preview.5.22301.12": {
+        "runtime": {
+          "lib/net6.0/System.Security.Cryptography.ProtectedData.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.30112"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.30112"
+          }
+        }
+      },
+      "System.Security.Permissions/7.0.0-preview.5.22301.12": {
+        "dependencies": {
+          "System.Windows.Extensions": "7.0.0-preview.5.22301.12"
+        },
+        "runtime": {
+          "lib/net6.0/System.Security.Permissions.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.30112"
+          }
+        }
+      },
+      "System.Windows.Extensions/7.0.0-preview.5.22301.12": {
+        "dependencies": {
+          "System.Drawing.Common": "7.0.0-preview.5.22301.12"
+        },
+        "runtime": {
+          "lib/net6.0/System.Windows.Extensions.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.30112"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net6.0/System.Windows.Extensions.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.30112"
+          }
+        }
+      }
     }
   },
   "libraries": {
@@ -183,6 +325,27 @@
       "path": "microsoft.extensions.primitives/7.0.0-preview.5.22301.12",
       "hashPath": "microsoft.extensions.primitives.7.0.0-preview.5.22301.12.nupkg.sha512"
     },
+    "Microsoft.Win32.SystemEvents/7.0.0-preview.5.22301.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-a+SMCv9yzDdjSraR1V/H10NpDszyvi8LhYcpykOHFqTJHuhI0xLkd4rVSsesyFUiWAQxaDeYSjTvG+YecOnK2A==",
+      "path": "microsoft.win32.systemevents/7.0.0-preview.5.22301.12",
+      "hashPath": "microsoft.win32.systemevents.7.0.0-preview.5.22301.12.nupkg.sha512"
+    },
+    "Newtonsoft.Json/12.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "path": "newtonsoft.json/12.0.3",
+      "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+    },
+    "NSpeedTest/1.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+2EphzrIb2LcF7CdV6xrdWM/tVUMt0xD/49QpKUgGXr/Mas+QhjpK41KOGPzthUs7vFBstjyNanousdaL8HI4w==",
+      "path": "nspeedtest/1.2.0",
+      "hashPath": "nspeedtest.1.2.0.nupkg.sha512"
+    },
     "Serilog/2.11.1-dev-01397": {
       "type": "package",
       "serviceable": true,
@@ -204,6 +367,13 @@
       "path": "serilog.sinks.console/4.0.2-dev-00890",
       "hashPath": "serilog.sinks.console.4.0.2-dev-00890.nupkg.sha512"
     },
+    "SpeedTest.NetCore/2.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cSVOn5QywOvX/bZ0pGQBGZcENjGI7GueOeLTRXYd0KXF8eOF26yvf75hvxuO/61C+Um1DJdawh5vPWT9dauCaQ==",
+      "path": "speedtest.netcore/2.1.0",
+      "hashPath": "speedtest.netcore.2.1.0.nupkg.sha512"
+    },
     "System.ComponentModel.Annotations/5.0.0": {
       "type": "package",
       "serviceable": true,
@@ -211,12 +381,54 @@
       "path": "system.componentmodel.annotations/5.0.0",
       "hashPath": "system.componentmodel.annotations.5.0.0.nupkg.sha512"
     },
+    "System.Configuration.ConfigurationManager/7.0.0-preview.5.22301.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-N7xtw5J1B2NqH6gdTZN9z5RajrE1KJxvktSRws6i+FgNsVRUJzLZSB7z5wIuwkGD0INmmtGJMTkD+OCeTD7hgQ==",
+      "path": "system.configuration.configurationmanager/7.0.0-preview.5.22301.12",
+      "hashPath": "system.configuration.configurationmanager.7.0.0-preview.5.22301.12.nupkg.sha512"
+    },
+    "System.Diagnostics.PerformanceCounter/7.0.0-preview.5.22301.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bxZ8gQPOpct8z1IW8DHfbKQo9OTC7c1LJdxBo5lPr/K4mYRsZa5avxTdMzanukDnTfWw+eposmd8mL6oalK5sg==",
+      "path": "system.diagnostics.performancecounter/7.0.0-preview.5.22301.12",
+      "hashPath": "system.diagnostics.performancecounter.7.0.0-preview.5.22301.12.nupkg.sha512"
+    },
+    "System.Drawing.Common/7.0.0-preview.5.22301.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JQPg9Ncj0dJBK3aIJYkLcA+1r7ufokFmkc/WeByj9srdGnWpMsumFNQvtOwXL3NELV4XzqNdfg/kx7cT1vNRsA==",
+      "path": "system.drawing.common/7.0.0-preview.5.22301.12",
+      "hashPath": "system.drawing.common.7.0.0-preview.5.22301.12.nupkg.sha512"
+    },
     "System.Runtime.CompilerServices.Unsafe/6.0.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-/iUeP3tq1S0XdNNoMz5C9twLSrM/TH+qElHkXWaPvuNOt+99G75NrV0OS2EqHx5wMN7popYjpc8oTjC1y16DLg==",
       "path": "system.runtime.compilerservices.unsafe/6.0.0",
       "hashPath": "system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+    },
+    "System.Security.Cryptography.ProtectedData/7.0.0-preview.5.22301.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UrkplmzSXSvEFdK8QBH9xAXHzpjsO8x+TkLnDqpo5b2QvImDGEe2nc9oYv4LWI2BYV8G8+NDbwMN2MBYERIl/Q==",
+      "path": "system.security.cryptography.protecteddata/7.0.0-preview.5.22301.12",
+      "hashPath": "system.security.cryptography.protecteddata.7.0.0-preview.5.22301.12.nupkg.sha512"
+    },
+    "System.Security.Permissions/7.0.0-preview.5.22301.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vSks9NYyA7OfAdOmO+Q1ONhYVY97D4WDzczMsbMl9VQJilZPPhoUeyQkjUJH5KYl2Oedbd9iiJKLPpiWtP5Iug==",
+      "path": "system.security.permissions/7.0.0-preview.5.22301.12",
+      "hashPath": "system.security.permissions.7.0.0-preview.5.22301.12.nupkg.sha512"
+    },
+    "System.Windows.Extensions/7.0.0-preview.5.22301.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Z95m/zNGwOYCd7szH9EKl3izfwXfOr5uBTzLiFBkP5Y6xewDz80OAkAoQ0qZoM6CST+AGxQJxS++PGWl7xS5yA==",
+      "path": "system.windows.extensions/7.0.0-preview.5.22301.12",
+      "hashPath": "system.windows.extensions.7.0.0-preview.5.22301.12.nupkg.sha512"
     }
   }
 }

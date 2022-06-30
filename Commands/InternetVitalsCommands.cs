@@ -78,7 +78,7 @@ public class InternetVitalsCommands
             sw.Stop();
             var newBytes = currentAdapter.GetIPv4Statistics().BytesReceived;
             var byteDifference = (newBytes - currentBytes)/125000.0;
-            var timeDifference = (sw.Elapsed.TotalMilliseconds)/1000.0;
+            var timeDifference = (sw.Elapsed.TotalMilliseconds -35)/1000.0;
             var speed = byteDifference / timeDifference;
             avgs = avgs.Append(speed).ToArray();
             Console.WriteLine("Speed Test {1}: {0} mbps", speed, i);

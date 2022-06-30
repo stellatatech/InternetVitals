@@ -49,6 +49,10 @@
               "target": "Package",
               "version": "[7.0.0-preview.5.22301.12, )"
             },
+            "NSpeedTest": {
+              "target": "Package",
+              "version": "[1.2.0, )"
+            },
             "Serilog": {
               "target": "Package",
               "version": "[2.11.1-dev-01397, )"
@@ -60,6 +64,14 @@
             "Serilog.Sinks.Console": {
               "target": "Package",
               "version": "[4.0.2-dev-00890, )"
+            },
+            "SpeedTest.NetCore": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "System.Diagnostics.PerformanceCounter": {
+              "target": "Package",
+              "version": "[7.0.0-preview.5.22301.12, )"
             }
           },
           "imports": [
