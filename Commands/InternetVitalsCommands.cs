@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InternetVitals.Commands;
 
-[Command(Name = "get-vitals", Description = "Gets the specified health vitals of your current network connection")]
+[Command(Name = "get-vitals", Description = "Internet Vitals is a console application built to monitor networking speed and information about the local network.")]
 public class InternetVitalsCommands
 {
     private readonly ILogger _logger;
@@ -68,6 +68,7 @@ public class InternetVitalsCommands
         //Calculate internet speed
         int i = 0;
         double[] avgs = new double[0];
+        
         while (i <= 30)
         {
             var url = "https://www.apple.com/legal/sla/docs/iOS7.pdf";
@@ -90,12 +91,15 @@ public class InternetVitalsCommands
     }
 
     private void GetInternetStats()
-    {   Console.WriteLine("Getting network adapter information");
+    {
+        Console.WriteLine("Getting network adapter information");
+        
         NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
         var activeAdapters = adapters.Where(x=> x.NetworkInterfaceType != NetworkInterfaceType.Loopback
                                                && x.NetworkInterfaceType != NetworkInterfaceType.Tunnel
                                                && x.OperationalStatus == OperationalStatus.Up 
                                                && x.Name.StartsWith("vEthernet") == false);
+        
         foreach (NetworkInterface adapter in activeAdapters)
         {
             IPInterfaceProperties properties = adapter.GetIPProperties();
@@ -113,28 +117,61 @@ public class InternetVitalsCommands
             Console.WriteLine("---------------------------------------");
         }
     }
+
+    private void RetryNetworkConnection()
+    {
+
+        // Create ping object
+        Ping netMon = new Ping();
+
+        try
+        {
+            // Ping host (this will block until complete)
+            PingReply response = netMon.Send("www.google.ca", 1000);
+
+            // Temp variable to offset issue with catch (requires internet connection)
+            var internetStatus = $"Connection Status: {response.Status}";
+            Console.WriteLine(internetStatus);
+        }
+        catch (PingException e)
+        {
+            int tryNum = 0;
+
+            while (tryNum < 10)
+            {
+                Thread.Sleep(2000);
+                // Ping host (this will block until complete)
+                PingReply response = netMon.Send("www.google.ca", 1000);
+                tryNum++;
+                Console.WriteLine($"Retrying connection...{tryNum}");
+
+                if (response.Status == IPStatus.Success)
+                {
+                    var internetStatus = $"Connection Status: {response.Status}";
+                    Console.WriteLine(internetStatus);
+                    break;
+                }
+
+                if (tryNum == 9)
+                {
+                    Console.WriteLine($"Try limit exceeded. Please refer to the error below:\n {e}");
+                    break;
+                }
+            }
+        }
+    }
     
     private void GetNetworkConnectionStatus()
     {
-        //Create ping object
-        Ping netMon = new Ping();
-
-        //Ping host (this will block until complete)
-        PingReply response = netMon.Send("www.google.ca", 1000);
-
-        if (response.Status == IPStatus.Success)
-        {
-            Console.WriteLine("Connection Status: Connected to internet");
-        }
-        else
-        {
-            Console.WriteLine("Connection Status: Error validating network connection");
-        }
+        RetryNetworkConnection();
+        var internetStatus = $"Connection Status: {response.Status}";
+        Console.WriteLine(internetStatus);
     }
 
     private void GetLocalIPAddress()
     {
         string localIPAddress = "";
+        
         using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
         {
             socket.Connect("8.8.8.8", 65530);
