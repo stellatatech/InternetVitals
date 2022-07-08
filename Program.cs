@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System.ComponentModel.DataAnnotations;
+﻿// using System.ComponentModel.DataAnnotations;
 using InternetVitals.Commands;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +8,6 @@ using Serilog.Extensions.Logging;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace InternetVitals;
-
 
 [Command(Name = "internetvitals")]
 [Subcommand(typeof(InternetVitalsCommands))]
