@@ -67,31 +67,26 @@ public class InternetVitalsCommands
         if (GetConnectionStatus)
         {
             GetNetworkConnectionStatus();
-            return 0;
         }
         
         if (GetActiveIPAddress)
         {
             GetIPAddress();
-            return 0;
         }
         
         if (GetPingSpeed)
         {
             PingSystem();
-            return 0;
         }
         
         if (GetAllInternetStats)
         {
             GetInternetStats();
-            return 0;
         }
         
         if (GetInternetDownloadSpeed)
         {
             await GetRealTimeDownloadSpeed();
-            return 0;
         }
 
         return 0;
