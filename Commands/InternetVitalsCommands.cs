@@ -22,6 +22,21 @@ public class InternetVitalsCommands
     
     [Option(Description = "Get all metrics", ShortName = "a", LongName = "get-all-metrics")]
     public string GetAllMetrics { get; set; }
+    
+    [Option(Description = "Get connection status", ShortName = "c", LongName = "get-connection-status")]
+    public string GetConnectionStatus { get; set; }
+    
+    [Option(Description = "Get devices IP Address", ShortName = "i", LongName = "get-ip-address")]
+    public string GetActiveIPAddress { get; set; }
+    
+    [Option(Description = "Get ping speed", ShortName = "p", LongName = "get-ping-speed")]
+    public string GetPingSpeed { get; set; }
+    
+    [Option(Description = "Get internet stats for all network adapters on the device", ShortName = "s", LongName = "get-internet-stats")]
+    public string GetAllInternetStats { get; set; }
+    
+    [Option(Description = "Get download speed", ShortName = "d", LongName = "get-download-speed")]
+    public string GetInternetDownloadSpeed { get; set; }
 
     private void divider()
     {
@@ -32,7 +47,7 @@ public class InternetVitalsCommands
     public async Task<int> OnExecuteAsync()
     {
 
-        if (String.IsNullOrEmpty(GetAllMetrics))
+        if (!String.IsNullOrEmpty(GetAllMetrics))
         {
             Console.WriteLine("\nNetwork Information");
             divider();
@@ -47,7 +62,37 @@ public class InternetVitalsCommands
             await GetRealTimeDownloadSpeed();
             return 0;
         }
+
+        if (!String.IsNullOrEmpty(GetConnectionStatus))
+        {
+            GetNetworkConnectionStatus();
+            return 0;
+        }
         
+        if (!String.IsNullOrEmpty(GetActiveIPAddress))
+        {
+            GetIPAddress();
+            return 0;
+        }
+        
+        if (!String.IsNullOrEmpty(GetPingSpeed))
+        {
+            PingSystem();
+            return 0;
+        }
+        
+        if (!String.IsNullOrEmpty(GetAllInternetStats))
+        {
+            GetInternetStats();
+            return 0;
+        }
+        
+        if (!String.IsNullOrEmpty(GetInternetDownloadSpeed))
+        {
+            await GetRealTimeDownloadSpeed();
+            return 0;
+        }
+
         return 0;
     }
 
