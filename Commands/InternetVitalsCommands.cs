@@ -1,4 +1,5 @@
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InternetVitals.Commands;
 
-[Command(Name = "get-vitals", Description = "Internet Vitals is a console application built to monitor networking speed and information about the local network. Some features require a network connection")]
+[Command(Name ="get-vitals", Description = "Internet Vitals is a console application built to monitor networking speed and information about the local network. Some features require a network connection")]
 public class InternetVitalsCommands
 {
     private readonly ILogger _logger;
@@ -21,7 +22,22 @@ public class InternetVitalsCommands
     }
     
     [Option(Description = "Get all metrics", ShortName = "a", LongName = "get-all-metrics")]
-    public string GetAllMetrics { get; set; }
+    public bool GetAllMetrics { get; set; }
+    
+    [Option(Description = "Get connection status", ShortName = "c", LongName = "get-connection-status")]
+    public bool GetConnectionStatus { get; set; }
+    
+    [Option(Description = "Get devices IP Address", ShortName = "i", LongName = "get-ip-address")]
+    public bool GetActiveIPAddress { get; set; }
+    
+    [Option(Description = "Get ping speed", ShortName = "p", LongName = "get-ping-speed")]
+    public bool GetPingSpeed { get; set; }
+    
+    [Option(Description = "Get internet stats for all network adapters on the device", ShortName = "s", LongName = "get-internet-stats")]
+    public bool GetAllInternetStats { get; set; }
+    
+    [Option(Description = "Get download speed", ShortName = "d", LongName = "get-download-speed")]
+    public bool GetInternetDownloadSpeed { get; set; }
 
     private void divider()
     {
@@ -32,7 +48,7 @@ public class InternetVitalsCommands
     public async Task<int> OnExecuteAsync()
     {
 
-        if (String.IsNullOrEmpty(GetAllMetrics))
+        if (GetAllMetrics)
         {
             Console.WriteLine("\nNetwork Information");
             divider();
@@ -47,7 +63,32 @@ public class InternetVitalsCommands
             await GetRealTimeDownloadSpeed();
             return 0;
         }
+
+        if (GetConnectionStatus)
+        {
+            GetNetworkConnectionStatus();
+        }
         
+        if (GetActiveIPAddress)
+        {
+            GetIPAddress();
+        }
+        
+        if (GetPingSpeed)
+        {
+            PingSystem();
+        }
+        
+        if (GetAllInternetStats)
+        {
+            GetInternetStats();
+        }
+        
+        if (GetInternetDownloadSpeed)
+        {
+            await GetRealTimeDownloadSpeed();
+        }
+
         return 0;
     }
 
