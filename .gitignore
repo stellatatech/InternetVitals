@@ -9,3 +9,6 @@
 
 # file: ~/.gitignore_global
 /bin/
+
+# VS Code // Community files
+.vs
