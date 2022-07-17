@@ -27,8 +27,11 @@ public class InternetVitalsCommands
     [Option(Description = "Get connection status", ShortName = "c", LongName = "get-connection-status")]
     public bool GetConnectionStatus { get; set; }
     
-    [Option(Description = "Get devices IP Address", ShortName = "i", LongName = "get-ip-address")]
+    [Option(Description = "Get internal IP Address", ShortName = "i", LongName = "get-internal-ip-address")]
     public bool GetActiveIPAddress { get; set; }
+
+    [Option(Description = "Get external IP Address", ShortName = "e", LongName = "get-external-ip-address")]
+    public bool GetPublicIPAddress { get; set; }
     
     [Option(Description = "Get ping speed", ShortName = "p", LongName = "get-ping-speed")]
     public bool GetPingSpeed { get; set; }
@@ -38,6 +41,9 @@ public class InternetVitalsCommands
     
     [Option(Description = "Get download speed", ShortName = "d", LongName = "get-download-speed")]
     public bool GetInternetDownloadSpeed { get; set; }
+
+    [Option(Description = "InternetVitals version information", ShortName = "v", LongName = "get-version")]
+    public bool GetVersionInformation { get; set; }
 
     private void divider()
     {
@@ -50,18 +56,31 @@ public class InternetVitalsCommands
 
         if (GetAllMetrics)
         {
+            Console.WriteLine("\n");
+            divider();
+            VersionInformation();
+            divider();
+            
             Console.WriteLine("\nNetwork Information");
             divider();
             GetNetworkConnectionStatus();
             divider();
-            GetIPAddress();
+            GetInternalIPAddress();
+            divider();
+            GetExternalIPAddress();
             divider();
             PingSystem();
             divider();
             GetInternetStats();
-            // divider();
             await GetRealTimeDownloadSpeed();
             return 0;
+        }
+
+        if (GetVersionInformation)
+        {
+            divider();
+            VersionInformation();
+            divider();
         }
 
         if (GetConnectionStatus)
@@ -71,7 +90,12 @@ public class InternetVitalsCommands
         
         if (GetActiveIPAddress)
         {
-            GetIPAddress();
+            GetInternalIPAddress();
+        }
+
+        if (GetPublicIPAddress)
+        {
+            GetExternalIPAddress();
         }
         
         if (GetPingSpeed)
@@ -90,6 +114,12 @@ public class InternetVitalsCommands
         }
 
         return 0;
+    }
+
+    private void VersionInformation()
+    {
+        String programVersion = "1.0.2";
+        Console.WriteLine($"InternetVitals Version: {programVersion}");
     }
 
     private async Task GetRealTimeDownloadSpeed()
@@ -196,10 +226,6 @@ public class InternetVitalsCommands
     
     private void GetNetworkConnectionStatus()
     {
-
-        // Assign int value for try limit
-        // int tryNum = 0;
-
         try
         {
             // Create ping object
@@ -215,25 +241,7 @@ public class InternetVitalsCommands
         }
         catch (PingException)
         {
-
             isConnected = false;
-
-            // while (tryNum < 11)
-            // {
-            //     // Attempts to connect after 5 seconds before exiting and notifying the user
-            //     Thread.Sleep(1000);
-            //     tryNum++;
-
-            //     Console.WriteLine($"Retrying connection in...{tryNum}");
-                
-            //     if (tryNum == 5)
-            //     {
-            //         Console.WriteLine("Time limit exceeded");
-            //         break;
-            //     }
-                
-            //     if (isConnected) { break; }
-            // }
 
             if (!isConnected)
             {
@@ -243,20 +251,20 @@ public class InternetVitalsCommands
         }
     }
 
-    private void GetIPAddress()
+    private void GetInternalIPAddress()
     {
-        string localIPAddress = "";
+        string internalIPAddress = "";
         
         using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
         {
             try
-            {
-                isConnected = true;
-                
+            {   
                 socket.Connect("8.8.8.8", 65530);
                 IPEndPoint endPoint = socket?.LocalEndPoint as IPEndPoint ?? throw new InvalidOperationException("Cannot read connection data");
-                localIPAddress = endPoint?.Address?.ToString() ?? throw new ArgumentNullException(nameof(localIPAddress), "Cannot determine IP address");
-                Console.WriteLine("Internal IP Address: {0}", localIPAddress);
+                internalIPAddress = endPoint?.Address?.ToString() ?? throw new ArgumentNullException(nameof(internalIPAddress), "Cannot determine internal IP address");
+                isConnected = true;
+
+                Console.WriteLine("Internal IP Address: {0}", internalIPAddress);
             }
             catch (SocketException)
             {
@@ -268,7 +276,10 @@ public class InternetVitalsCommands
                 }
             }
         }
+    }
 
+    private void GetExternalIPAddress()
+    {
         try
         {
             // TODO: Convert WebClient => HTTPClient
@@ -292,15 +303,15 @@ public class InternetVitalsCommands
     {
         try
         {
-            //Create ping object
+            // Create ping object
             Ping netMon = new Ping();
 
-            //Ping host (this will block until complete)
+            // Ping host (this will block until complete)
             PingReply response = netMon.Send("www.google.ca", 1000);
 
-            Console.WriteLine("Ping Speed: {0}ms", response.RoundtripTime);
-
             isConnected = true;
+
+            Console.WriteLine("Ping Speed: {0}ms", response.RoundtripTime);
         }
         catch (PingException)
         {
