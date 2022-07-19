@@ -1,4 +1,4 @@
-﻿// using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using InternetVitals.Commands;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
