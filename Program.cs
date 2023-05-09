@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using InternetVitals.Commands;
+using NetVitals.Commands;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -7,16 +7,15 @@ using Serilog;
 using Serilog.Extensions.Logging;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-namespace InternetVitals;
+namespace NetVitals;
 
-[Command(Name = "internetvitals")]
-[Subcommand(typeof(InternetVitalsCommands))]
+[Command(Name = "netvitals")]
+[Subcommand(typeof(NetVitalsCommands))]
 class Program
 {
     private static ILogger _logger;
     public static async Task<int> Main(string[] args)
-    {
-        
+    {   
         Log.Logger = new LoggerConfiguration()
             .WriteTo
             .Console()
@@ -48,5 +47,4 @@ class Program
 
         return services.BuildServiceProvider();
     }
- 
 }

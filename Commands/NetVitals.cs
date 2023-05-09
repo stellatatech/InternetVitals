@@ -7,42 +7,45 @@ using System.Net.Sockets;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 
-namespace InternetVitals.Commands;
+namespace NetVitals.Commands;
 
-[Command(Name ="get-vitals", Description = "Internet Vitals is a console application built to monitor networking speed and information about the local network. Some features require a network connection")]
-public class InternetVitalsCommands
+[Command(Name = "monitor", Description = "NetVitals is a command line application built to monitor networking speed and collect information about the local network configuration.")]
+public class NetVitalsCommands
 {
+    private String programName = "NetVitals";
+    private String programVersion = "1.0.3";
+
     private readonly ILogger _logger;
     private readonly HttpClient _client = new HttpClient {Timeout = TimeSpan.FromSeconds(120)};
     private bool isConnected;
 
-    public InternetVitalsCommands(ILogger logger)
+    public NetVitalsCommands(ILogger logger)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
     
-    [Option(Description = "Get all metrics", ShortName = "a", LongName = "get-all-metrics")]
+    [Option(Description = "Collect all available metrics", ShortName = "a", LongName = "all")]
     public bool GetAllMetrics { get; set; }
     
-    [Option(Description = "Get connection status", ShortName = "c", LongName = "get-connection-status")]
+    [Option(Description = "Validates connection request", ShortName = "c", LongName = "connect")]
     public bool GetConnectionStatus { get; set; }
     
-    [Option(Description = "Get internal IP Address", ShortName = "i", LongName = "get-internal-ip-address")]
+    [Option(Description = "Collect internal IP Address", ShortName = "i", LongName = "internal-ip")]
     public bool GetActiveIPAddress { get; set; }
 
-    [Option(Description = "Get external IP Address", ShortName = "e", LongName = "get-external-ip-address")]
+    [Option(Description = "Collect external IP Address", ShortName = "e", LongName = "external-ip")]
     public bool GetPublicIPAddress { get; set; }
     
-    [Option(Description = "Get ping speed", ShortName = "p", LongName = "get-ping-speed")]
+    [Option(Description = "Get ping speed", ShortName = "p", LongName = "ping")]
     public bool GetPingSpeed { get; set; }
     
-    [Option(Description = "Get internet stats for all network adapters on the device", ShortName = "s", LongName = "get-internet-stats")]
+    [Option(Description = "Get internet stats for all network adapters on the device", ShortName = "s", LongName = "net-stats")]
     public bool GetAllInternetStats { get; set; }
     
-    [Option(Description = "Get download speed", ShortName = "d", LongName = "get-download-speed")]
+    [Option(Description = "Test download speed", ShortName = "d", LongName = "download")]
     public bool GetInternetDownloadSpeed { get; set; }
 
-    [Option(Description = "InternetVitals version information", ShortName = "v", LongName = "get-version")]
+    [Option(Description = "NetVitals version information", ShortName = "v", LongName = "version")]
     public bool GetVersionInformation { get; set; }
 
     private void divider()
@@ -118,8 +121,7 @@ public class InternetVitalsCommands
 
     private void VersionInformation()
     {
-        String programVersion = "1.0.2";
-        Console.WriteLine($"InternetVitals Version: {programVersion}");
+        Console.WriteLine($"{programName} Version: {programVersion}");
     }
 
     private async Task GetRealTimeDownloadSpeed()
@@ -162,7 +164,7 @@ public class InternetVitalsCommands
                 var byteDifference = (newBytes - currentBytes) / 125000.0;
                 var timeDifference = (sw.Elapsed.TotalMilliseconds - 35) / 1000.0;
                 var speed = byteDifference / timeDifference;
-                
+
                 avgs = avgs.Append(speed).ToArray();
                 Console.WriteLine("Speed Test {1}: {0} mbps", speed, i);
                 i++;
