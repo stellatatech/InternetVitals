@@ -78,7 +78,9 @@ Below you'll find a table of all available commands for the NetVitals applicatio
 
 ## Build
 
-An executable is currently available for download under [Releases](https://github.com/stellatatech/NetVitals/releases), but if you're interested in building from source, you can easily compile the project by running the following command:
+<!-- An executable is currently available for download under [Releases](https://github.com/stellatatech/NetVitals/releases). -->
+
+If you're interested in building from source, you can easily compile the project by running the following command:
 
 ```bash
 dotnet build
